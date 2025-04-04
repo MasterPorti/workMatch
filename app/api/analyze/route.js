@@ -119,6 +119,14 @@ export async function POST(request) {
   try {
     const { text } = await request.json();
 
+    if (!text) {
+      return Response.json({ error: 'No se proporcionó texto para analizar' }, { status: 400 });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return Response.json({ error: 'API key no configurada' }, { status: 500 });
+    }
+
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-pro-exp-03-25",
     });
@@ -148,9 +156,6 @@ export async function POST(request) {
     // Limpiar la respuesta para asegurar que sea un JSON válido
     let cleanResponse = result.response.text().trim();
     
-    // Mostrar la respuesta cruda en la consola
-    console.log('Respuesta cruda de la API:', cleanResponse);
-    
     // Limpiar el bloque de código markdown si existe
     cleanResponse = cleanResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     
@@ -162,7 +167,7 @@ export async function POST(request) {
       categories = categories.filter(cat => CATEGORIES.includes(cat));
     } catch (error) {
       console.error('Error parsing response:', error);
-      throw new Error('La respuesta no es un JSON válido');
+      return Response.json({ error: 'Error al procesar la respuesta de la IA' }, { status: 500 });
     }
 
     return Response.json({ 
@@ -170,6 +175,9 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error('Error:', error);
-    return Response.json({ error: 'Error al analizar el texto' }, { status: 500 });
+    return Response.json({ 
+      error: 'Error al analizar el texto',
+      details: error.message
+    }, { status: 500 });
   }
 } 
