@@ -183,7 +183,7 @@ export default function DemoPDFPage() {
                       {categories.map((category, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-[#EE4266] bg-opacity-10 text-[#EE4266] rounded-full text-sm font-medium border border-[#EE4266]"
+                          className="px-3 py-1 bg-[#EE4266] bg-opacity-10 text-white rounded-full text-sm font-medium border border-[#EE4266]"
                         >
                           {category}
                         </span>
