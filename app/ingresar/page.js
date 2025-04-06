@@ -1,58 +1,68 @@
-'use client'
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import Header from '../components/Header';
-import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Header from "../components/Header";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function IngresarPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      router.push("/home");
+    }
+  }, [router]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError('');
+    setError("");
 
     try {
       const url = `https://jossred.josprox.com/api/jossredauth?correo=${formData.email}&contra=${formData.password}`;
-      console.log('URL de la API:', url);
-      
+      console.log("URL de la API:", url);
+
       const response = await fetch(url);
-      console.log('Status de la respuesta:', response.status);
-      console.log('Headers de la respuesta:', Object.fromEntries(response.headers.entries()));
-      
+      console.log("Status de la respuesta:", response.status);
+      console.log(
+        "Headers de la respuesta:",
+        Object.fromEntries(response.headers.entries())
+      );
+
       const data = await response.json();
-      console.log('Datos de la respuesta:', data);
-      
+      console.log("Datos de la respuesta:", data);
+
       if (!response.ok) {
-        throw new Error(data.message || 'Error al iniciar sesión');
+        throw new Error(data.message || "Error al iniciar sesión");
       }
-      
+
       // Verificar si la respuesta contiene un token
       if (!data.token) {
-        throw new Error('No se recibió un token válido');
+        throw new Error("No se recibió un token válido");
       }
-      
+
       // Guardar el token en cookies
-      Cookies.set('token', data.token, { expires: 7 }); // Expira en 7 días
-      
+      Cookies.set("token", data.token, { expires: 7 }); // Expira en 7 días
+
       // Redirigir a la página de home
-      router.push('/home');
+      router.push("/home");
     } catch (error) {
-      console.error('Error completo:', error);
+      console.error("Error completo:", error);
       setError(error.message);
     }
   };
@@ -65,7 +75,7 @@ export default function IngresarPage() {
       <div className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <h1 className="text-3xl font-bold text-center mb-8">Ingresar</h1>
-          
+
           {error && (
             <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-lg">
               {error}
@@ -74,7 +84,10 @@ export default function IngresarPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Correo electrónico
               </label>
               <input
@@ -89,7 +102,10 @@ export default function IngresarPage() {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Contraseña
               </label>
               <input
@@ -111,11 +127,17 @@ export default function IngresarPage() {
                   name="remember"
                   className="h-4 w-4 text-[#EE4266] focus:ring-[#EE4266] border-gray-300 rounded"
                 />
-                <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
+                <label
+                  htmlFor="remember"
+                  className="ml-2 block text-sm text-gray-700"
+                >
                   Recordarme
                 </label>
               </div>
-              <Link href="/olvide-password" className="text-sm text-[#EE4266] hover:underline">
+              <Link
+                href="/olvide-password"
+                className="text-sm text-[#EE4266] hover:underline"
+              >
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
@@ -127,8 +149,11 @@ export default function IngresarPage() {
             </button>
           </form>
           <p className="mt-6 text-center text-sm text-gray-600">
-            ¿No tienes una cuenta?{' '}
-            <Link href="/crear-cuenta" className="text-[#EE4266] hover:underline font-bold">
+            ¿No tienes una cuenta?{" "}
+            <Link
+              href="/crear-cuenta"
+              className="text-[#EE4266] hover:underline font-bold"
+            >
               Crear cuenta
             </Link>
           </p>
@@ -136,4 +161,4 @@ export default function IngresarPage() {
       </div>
     </div>
   );
-} 
+}

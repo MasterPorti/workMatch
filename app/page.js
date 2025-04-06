@@ -12,14 +12,16 @@ export default function Home() {
       "Desarrollo empresarial rápido y seguro, impulsado",
       "por IA. Conexiones de talento a medida.",
     ],
-    imageSrc: "/images/home.png",
+    imageSrc: "/images/home1.png",
     buttonText: "Quiero contratar",
     buttonText2: "Quiero trabajar",
+    buttonPath: "/crear-cuenta-empresa",
+    buttonPath2: "/crear-cuenta",
   };
 
   const workCards = [
     {
-      imageSrc: "/images/developer.avif",
+      imageSrc: "/images/developer.webp",
       title: "Quiero trabajar como",
       role: "DEVELOPER",
       description:

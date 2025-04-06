@@ -7,8 +7,8 @@ export default function WorkCard({ imageSrc, title, role, description }) {
         src={imageSrc}
         className="rounded-full w-24 h-24 object-cover"
         alt={role}
-        width={125}
-        height={125}
+        width={300}
+        height={300}
       />
       <p className="text-lg font-thin">{title}</p>
       <p className="text-xl text-[#EE4266] font-bold tracking-[0.5em]">

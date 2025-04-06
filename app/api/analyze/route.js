@@ -115,6 +115,181 @@ const CATEGORIES = [
   "Desarrollo Back-End",
 ];
 
+const TECH_CATEGORIES = [
+  // Desarrollo de Software
+  "React.js",
+  "Angular",
+  "Vue.js",
+  "Svelte",
+  "Next.js",
+  "Nuxt.js",
+  "Web Components",
+  "Tailwind CSS",
+  "Bootstrap",
+  "Figma to Code",
+  "Jamstack",
+  "PWA",
+  "WebAssembly",
+
+  "Node.js",
+  "Django",
+  "Flask",
+  "Spring Boot",
+  ".NET Core",
+  "Laravel",
+  "Ruby on Rails",
+  "Express.js",
+  "FastAPI",
+  "GraphQL",
+  "REST APIs",
+  "Serverless",
+  "Microservicios",
+
+  "MERN Stack",
+  "MEAN Stack",
+  "LAMP Stack",
+  "JAMstack",
+  "Django + React",
+
+  "iOS (Swift/SwiftUI)",
+  "iOS (Flutter)",
+  "Android (Kotlin/Jetpack)",
+  "Android (Flutter)",
+  "React Native",
+  "Flutter",
+  "Xamarin",
+  "Ionic",
+
+  "Electron.js",
+  "Qt",
+  ".NET WPF",
+  "JavaFX",
+  "Tauri",
+
+  "Unity",
+  "Unreal Engine",
+  "Godot",
+  "Phaser",
+  "Game Development (C++/C#)",
+  "AR/VR Gaming",
+
+  "Arduino",
+  "Raspberry Pi",
+  "Embedded C/C++",
+  "RTOS",
+  "IoT Protocols",
+
+  // Data & AI
+  "TensorFlow",
+  "PyTorch",
+  "Keras",
+  "Scikit-learn",
+  "LLMs (OpenAI)",
+  "Computer Vision",
+  "NLP",
+  "Reinforcement Learning",
+
+  "Pandas/NumPy",
+  "Apache Spark",
+  "Hadoop",
+  "Data Warehousing",
+  "ETL/ELT",
+  "Data Visualization",
+
+  "Apache Kafka",
+  "Apache Flink",
+  "HBase",
+  "Cassandra",
+  "Data Lakes",
+
+  // DevOps & Cloud
+  "AWS",
+  "Azure",
+  "GCP",
+  "Serverless",
+  "Multi-cloud",
+
+  "Docker",
+  "Kubernetes",
+  "Terraform",
+  "Ansible",
+  "Jenkins",
+  "GitHub Actions",
+  "GitLab CI/CD",
+  "ArgoCD",
+  "Prometheus/Grafana",
+
+  "Linux SysAdmin",
+  "Networking",
+  "Virtualización",
+  "Bare Metal",
+  "Edge Computing",
+
+  // Cybersecurity
+  "Ethical Hacking",
+  "Pentesting",
+  "SOC Analyst",
+  "Threat Intelligence",
+  "DevSecOps",
+  "Cryptography",
+  "Zero Trust",
+  "Compliance",
+
+  // Bases de Datos
+  "PostgreSQL",
+  "MySQL",
+  "SQLite",
+  "MariaDB",
+  "Oracle DB",
+
+  "MongoDB",
+  "Firebase",
+  "DynamoDB",
+  "Neo4j",
+  "Redis",
+
+  // Diseño & UX/UI
+  "UX Research",
+  "UI Design",
+  "Prototyping",
+  "Motion Design",
+  "Design Systems",
+  "Accessibility",
+  "Product Design",
+
+  // Blockchain & Web3
+  "Solidity",
+  "Ethereum",
+  "Smart Contracts",
+  "DeFi",
+  "NFTs",
+  "DAOs",
+  "Web3.js/Ethers.js",
+
+  // Otros Tech
+  "Quantum Computing",
+  "Robotics",
+  "Bioinformatics",
+  "GIS",
+  "Low-Code/No-Code",
+  "Voice Apps",
+
+  // Business & Management
+  "Agile/Scrum",
+  "Product Management",
+  "Technical Writing",
+  "IT Consulting",
+  "Tech Sales",
+  "Startup Development",
+
+  // Marketing Digital Tech
+  "Growth Hacking",
+  "SEO Técnico",
+  "Data-Driven Marketing",
+  "SaaS Marketing",
+  "Community Management",
+];
+
 export async function POST(request) {
   try {
     const { text } = await request.json();

@@ -12,14 +12,16 @@ export default function Trabaja() {
       "Conecta con las mejores oportunidades",
       "de trabajo en América Latina.",
     ],
-    imageSrc: "/images/work.png",
+    imageSrc: "/images/home1.png",
     buttonText: "Quiero trabajar",
+    buttonPath: "/crear-cuenta",
+    buttonPath2: "/crear-cuenta-empresa",
     buttonText2: "Quiero contratar",
   };
 
   const workCards = [
     {
-      imageSrc: "/images/developer.avif",
+      imageSrc: "/images/developer.webp",
       title: "Quiero trabajar como",
       role: "DEVELOPER",
       description:
