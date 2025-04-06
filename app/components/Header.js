@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname = usePathname();
@@ -34,15 +34,23 @@ export default function Header() {
       </svg>
 
       <div className="flex items-center gap-2">
-        <Link 
-          href="/" 
-          className={`${pathname === "/" ? "after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#EE4266] relative" : ""}`}
+        <Link
+          href="/"
+          className={`${
+            pathname === "/"
+              ? "after:absolute after:mt-2 after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#EE4266] relative after:rounded-full"
+              : ""
+          }`}
         >
           Quiero Contratar
         </Link>
-        <Link 
-          href="/trabaja" 
-          className={`${pathname === "/trabaja" ? "after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#EE4266] relative" : ""}`}
+        <Link
+          href="/trabaja"
+          className={`${
+            pathname === "/trabaja"
+              ? "after:absolute after:mt-2 after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#EE4266] relative after:rounded-full"
+              : ""
+          }`}
         >
           Quiero Trabajar
         </Link>
@@ -51,10 +59,13 @@ export default function Header() {
         <Link href="/ingresar" className="text-[#EE4266] font-bold">
           Ingresar
         </Link>
-        <Link href="/crear-cuenta" className="bg-[#EE4266] text-white px-4 py-2 rounded-full font-bold">
+        <Link
+          href="/crear-cuenta"
+          className="bg-[#EE4266] text-white px-4 py-2 rounded-full font-bold"
+        >
           Crear Cuenta
         </Link>
       </div>
     </div>
   );
-} 
+}

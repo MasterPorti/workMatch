@@ -1,79 +1,160 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import Header from '../components/Header';
-import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
+import { useState } from "react";
+import Link from "next/link";
+import Header from "../components/Header";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import pdfToText from "react-pdftotext";
 
 export default function CrearCuentaPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    terms: false
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+    terms: false,
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [extractedText, setExtractedText] = useState("");
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
+  };
+
+  const extractText = (event) => {
+    const file = event.target.files[0];
+    if (!file || file.type !== "application/pdf") {
+      alert("Por favor, selecciona un archivo PDF.");
+      return;
+    }
+
+    setIsExtracting(true);
+    setError("");
+
+    pdfToText(file)
+      .then((text) => {
+        setExtractedText(text);
+        setIsExtracting(false);
+        analyzeText(text); // Automatically analyze the text after extraction
+      })
+      .catch((error) => {
+        console.error("Error al extraer el texto:", error);
+        alert("No se pudo extraer el texto del PDF.");
+        setIsExtracting(false);
+      });
+  };
+
+  const analyzeText = async (text) => {
+    setIsAnalyzing(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Error al analizar el texto");
+      }
+
+      setCategories(data.categories);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError('');
+    setError("");
 
     try {
-      const url = 'https://jossred.josprox.com/api/jossrednewuser';
-      const requestData = {
-        username: formData.email,
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        contra: formData.password
-      };
+      // Construir la URL con los parámetros en la query string
+      const url = `https://jossred.josprox.com/api/jossrednewuser?username=${encodeURIComponent(
+        formData.firstName
+      )}&first_name=${encodeURIComponent(
+        formData.firstName
+      )}&last_name=${encodeURIComponent(
+        formData.lastName
+      )}&email=${encodeURIComponent(formData.email)}&phone=${encodeURIComponent(
+        formData.phone
+      )}&contra=${encodeURIComponent(formData.password)}`;
+
+      console.log(url);
 
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(requestData)
       });
-      
+
       const data = await response.json();
 
       if (response.status === 422) {
-        setError('Usuario ya registrado');
+        setError("Usuario ya registrado");
         return;
       }
 
       if (!response.ok) {
-        setError(data.message || 'Error al crear la cuenta');
+        setError(data.message || "Error al crear la cuenta");
         return;
       }
 
-      // Verificar si la respuesta contiene un token
       if (!data.token) {
-        setError('No se recibió un token válido');
+        setError("No se recibió un token válido");
         return;
       }
 
-      // Guardar el token en cookies
-      Cookies.set('token', data.token, { expires: 7 }); // Expira en 7 días
-      
-      // Redirigir a la página de home
-      router.push('/home');
+      Cookies.set("token", data.token, { expires: 7 });
+
+      try {
+        // Convert categories array to comma-separated string
+        const categoriesString = categories.join(", ");
+
+        // Make second API call
+        const url2 = `https://bk.workmatch.ovh/api/usuarios?token_user=${
+          data.token
+        }&especialidades=${encodeURIComponent(
+          categoriesString
+        )}&curriculum=${encodeURIComponent(extractedText)}`;
+
+        console.log(url2);
+        const response2 = await fetch(url2, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response2.ok) {
+          throw new Error("Error al registrar el perfil");
+        }
+
+        router.push("/home");
+      } catch (error) {
+        console.error("Error al conectar con el servidor:", error);
+        setError("Error al registrar el perfil");
+      }
     } catch (error) {
-      setError('Error al conectar con el servidor');
+      setError("Error al conectar con el servidor");
     }
   };
 
@@ -150,7 +231,9 @@ export default function CrearCuentaPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Contraseña</label>
+              <label className="block text-sm font-medium mb-1">
+                Contraseña
+              </label>
               <input
                 type="password"
                 name="password"
@@ -165,18 +248,104 @@ export default function CrearCuentaPage() {
               </p>
             </div>
 
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                name="terms"
-                checked={formData.terms}
-                onChange={handleChange}
-                className="mr-2"
-                required
-              />
-              <label className="text-sm">
-                Acepto los términos y condiciones
+            <div className="flex flex-col items-center justify-center w-full">
+              <label
+                htmlFor="pdf-upload"
+                className="w-full flex flex-col items-center px-8 py-6 bg-white text-gray-500 rounded-lg shadow-lg tracking-wide border border-gray-300 cursor-pointer hover:bg-gray-50"
+              >
+                <svg
+                  className="w-8 h-8"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1z" />
+                </svg>
+                <span className="mt-2 text-base">Sube tu CV en PDF</span>
+                <input
+                  id="pdf-upload"
+                  type="file"
+                  accept="application/pdf"
+                  onChange={extractText}
+                  className="hidden"
+                />
               </label>
+              {isExtracting && (
+                <div className="flex items-center justify-center gap-2 text-gray-600 mt-2">
+                  <svg
+                    className="animate-spin h-5 w-5 text-[#EE4266]"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <span>Extrayendo texto del PDF...</span>
+                </div>
+              )}
+              {isAnalyzing && (
+                <div className="flex items-center justify-center gap-2 text-gray-600 mt-2">
+                  <svg
+                    className="animate-spin h-5 w-5 text-[#EE4266]"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <span>Analizando con Gemini...</span>
+                </div>
+              )}
+              {categories.length > 0 && (
+                <div className="mt-4 w-full">
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">
+                    Categorías identificadas:
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {categories.map((category, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-[#EE4266] bg-opacity-10 text-white rounded-full text-sm font-medium border border-[#EE4266]"
+                      >
+                        {category}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="flex items-center">
+              <Link
+                href="/crear-cuenta-empresa"
+                className="text-sm text-[#EE4266] hover:underline font-bold"
+              >
+                ¿Eres una empresa?
+              </Link>
             </div>
 
             <button
@@ -194,8 +363,11 @@ export default function CrearCuentaPage() {
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-600">
-            ¿Ya tienes una cuenta?{' '}
-            <Link href="/ingresar" className="text-[#EE4266] hover:underline font-bold">
+            ¿Ya tienes una cuenta?{" "}
+            <Link
+              href="/ingresar"
+              className="text-[#EE4266] hover:underline font-bold"
+            >
               Ingresar
             </Link>
           </p>
@@ -203,4 +375,4 @@ export default function CrearCuentaPage() {
       </div>
     </div>
   );
-} 
+}

@@ -1,33 +1,44 @@
-'use client'
+"use client";
 
-import Link from 'next/link';
-import Header from '../components/Header';
+import Header from "../components/Header";
+import HeroSection from "../components/HeroSection";
+import WorkSection from "../components/WorkSection";
 
-export default function TrabajaPage() {
+export default function Trabaja() {
+  const heroData = {
+    title: "Encuentra tu próximo",
+    subtitle: "proyecto profesional",
+    description: [
+      "Conecta con las mejores oportunidades",
+      "de trabajo en América Latina.",
+    ],
+    imageSrc: "/images/work.png",
+    buttonText: "Quiero trabajar",
+    buttonText2: "Quiero contratar",
+  };
+
+  const workCards = [
+    {
+      imageSrc: "/images/developer.avif",
+      title: "Quiero trabajar como",
+      role: "DEVELOPER",
+      description:
+        "Trabaja en startups de Mexico y America Latina por un tiempo determinado, de forma remota o presencial, y con la tecnología que prefieras.",
+    },
+    {
+      imageSrc: "/images/freelancer.png",
+      title: "Quiero trabajar como",
+      role: "FREELANCER",
+      description:
+        "Trabaja en proyectos freelance de tu preferencia, de forma remota o presencial, y con la tecnología que prefieras.",
+    },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
-      {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center px-4">
-        <div className="w-full max-w-md">
-          <h1 className="text-3xl font-bold text-center mb-8">Trabaja con nosotros</h1>
-          <div className="space-y-4">
-            <Link
-              href="/ingresar"
-              className="block w-full bg-[#EE4266] text-white py-3 px-4 rounded-lg font-bold hover:bg-[#d13a5c] transition-colors text-center"
-            >
-              Ingresar
-            </Link>
-            <Link
-              href="/crear-cuenta"
-              className="block w-full bg-white text-[#EE4266] py-3 px-4 rounded-lg font-bold hover:bg-gray-50 transition-colors text-center border-2 border-[#EE4266]"
-            >
-              Crear cuenta
-            </Link>
-          </div>
-        </div>
-      </div>
+      <HeroSection {...heroData} />
+      <WorkSection cards={workCards} />
     </div>
   );
-} 
+}

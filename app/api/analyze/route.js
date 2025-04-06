@@ -112,7 +112,7 @@ const CATEGORIES = [
   "Desarrollo de Chatbots",
   "Desarrollo Full Stack",
   "Desarrollo Front-End",
-  "Desarrollo Back-End"
+  "Desarrollo Back-End",
 ];
 
 export async function POST(request) {
@@ -120,11 +120,17 @@ export async function POST(request) {
     const { text } = await request.json();
 
     if (!text) {
-      return Response.json({ error: 'No se proporcionó texto para analizar' }, { status: 400 });
+      return Response.json(
+        { error: "No se proporcionó texto para analizar" },
+        { status: 400 }
+      );
     }
 
     if (!process.env.GEMINI_API_KEY) {
-      return Response.json({ error: 'API key no configurada' }, { status: 500 });
+      return Response.json(
+        { error: "API key no configurada" },
+        { status: 500 }
+      );
     }
 
     const model = genAI.getGenerativeModel({
@@ -155,29 +161,38 @@ export async function POST(request) {
 
     // Limpiar la respuesta para asegurar que sea un JSON válido
     let cleanResponse = result.response.text().trim();
-    
+
     // Limpiar el bloque de código markdown si existe
-    cleanResponse = cleanResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    
+    cleanResponse = cleanResponse
+      .replace(/```json\n?/g, "")
+      .replace(/```\n?/g, "")
+      .trim();
+
     let categories;
-    
+
     try {
       categories = JSON.parse(cleanResponse);
       // Asegurarse de que las categorías devueltas estén en la lista permitida
-      categories = categories.filter(cat => CATEGORIES.includes(cat));
+      categories = categories.filter((cat) => CATEGORIES.includes(cat));
     } catch (error) {
-      console.error('Error parsing response:', error);
-      return Response.json({ error: 'Error al procesar la respuesta de la IA' }, { status: 500 });
+      console.error("Error parsing response:", error);
+      return Response.json(
+        { error: "Error al procesar la respuesta de la IA" },
+        { status: 500 }
+      );
     }
 
-    return Response.json({ 
-      categories: categories
+    return Response.json({
+      categories: categories,
     });
   } catch (error) {
-    console.error('Error:', error);
-    return Response.json({ 
-      error: 'Error al analizar el texto',
-      details: error.message
-    }, { status: 500 });
+    console.error("Error:", error);
+    return Response.json(
+      {
+        error: "Error al analizar el texto",
+        details: error.message,
+      },
+      { status: 500 }
+    );
   }
-} 
+}
