@@ -115,7 +115,7 @@ export default function GestionarVacantesEmpresasPage() {
     return (
       <div className="flex h-screen">
         <SidebarEmpresas />
-        <div className="w-full h-full bg-[#fcfcfc] flex items-center justify-center">
+        <div className="w-full h-full bg-gray-900 flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#EE4266]"></div>
         </div>
       </div>
@@ -125,9 +125,9 @@ export default function GestionarVacantesEmpresasPage() {
   return (
     <div className="flex h-screen">
       <SidebarEmpresas />
-      <div className="w-full h-full bg-[#fcfcfc]">
-        <div className="w-full h-16 border-b flex justify-between items-center px-10 border-gray-400/50">
-          <span className="text-2xl font-bold font-mono">
+      <div className="w-full h-full bg-gray-900">
+        <div className="w-full h-16 border-b flex justify-between items-center px-10 border-gray-700">
+          <span className="text-2xl font-bold font-mono text-white">
             Gestionar Vacantes
           </span>
           <div className="relative">
@@ -138,12 +138,12 @@ export default function GestionarVacantesEmpresasPage() {
             ></div>
             {showMenu && (
               <div
-                className="absolute right-0 mt-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                className="absolute right-0 mt-0 w-48 bg-gray-800 rounded-lg shadow-lg border border-gray-700 py-2 z-50"
                 onMouseEnter={() => setShowMenu(true)}
                 onMouseLeave={() => setShowMenu(false)}
               >
-                <div className="px-4 py-2 border-b border-gray-200">
-                  <div className="flex items-center gap-2 text-gray-600">
+                <div className="px-4 py-2 border-b border-gray-700">
+                  <div className="flex items-center gap-2 text-gray-300">
                     <HiMail className="text-[#EE4266]" />
                     <span className="text-sm truncate">
                       {empresaData?.correo || "No disponible"}
@@ -152,7 +152,7 @@ export default function GestionarVacantesEmpresasPage() {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700 flex items-center gap-2"
                 >
                   <HiLogout className="text-[#EE4266]" />
                   <span>Cerrar sesión</span>
@@ -162,12 +162,14 @@ export default function GestionarVacantesEmpresasPage() {
           </div>
         </div>
         <div className="p-10">
-          <span className="text-2xl font-bold">
+          <span className="text-2xl font-bold text-white">
             ¡Hola, {empresaData?.nombre || "Empresa"}!
           </span>
 
           <div className="mt-8">
-            <h2 className="text-xl font-bold mb-4">Candidaturas Recibidas</h2>
+            <h2 className="text-xl font-bold mb-4 text-white">
+              Candidaturas Recibidas
+            </h2>
 
             <div className="mb-6 flex gap-4">
               <button
@@ -175,7 +177,7 @@ export default function GestionarVacantesEmpresasPage() {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                   filterStatus === "todas"
                     ? "bg-[#EE4266] text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
                 Todas
@@ -185,7 +187,7 @@ export default function GestionarVacantesEmpresasPage() {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                   filterStatus === "pendientes"
                     ? "bg-yellow-500 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
                 Pendientes
@@ -195,7 +197,7 @@ export default function GestionarVacantesEmpresasPage() {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                   filterStatus === "aceptadas"
                     ? "bg-green-500 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
                 Aceptadas
@@ -205,7 +207,7 @@ export default function GestionarVacantesEmpresasPage() {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                   filterStatus === "rechazadas"
                     ? "bg-red-500 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
                 Rechazadas
@@ -217,67 +219,84 @@ export default function GestionarVacantesEmpresasPage() {
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#EE4266]"></div>
               </div>
             ) : error ? (
-              <div className="text-red-500">{error}</div>
+              <div className="text-red-400">{error}</div>
             ) : (
-              <div className="bg-white rounded-lg shadow overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+              <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
+                <table className="min-w-full divide-y divide-gray-700">
+                  <thead className="bg-gray-800">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Candidato
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Email
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Vacante
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Estado
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Acciones
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-gray-800 divide-y divide-gray-700">
                     {filteredCandidaturas.map((candidatura) => (
                       <tr key={candidatura.id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                           {candidatura.first_name}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           {candidatura.email}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {candidatura.titulo}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                          {candidatura.vacante_titulo}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                               candidatura.estado === "pendiente"
-                                ? "bg-yellow-100 text-yellow-800"
-                                : candidatura.estado === "Rechazado"
-                                ? "bg-red-100 text-red-800"
-                                : "bg-green-100 text-green-800"
+                                ? "bg-yellow-500/20 text-yellow-300"
+                                : candidatura.estado === "Aceptado"
+                                ? "bg-green-500/20 text-green-300"
+                                : "bg-red-500/20 text-red-300"
                             }`}
                           >
                             {candidatura.estado}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          <select
-                            value={candidatura.estado}
-                            onChange={(e) =>
-                              handleUpdateStatus(candidatura.id, e.target.value)
-                            }
-                            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266] sm:text-sm rounded-md"
-                            disabled={isUpdating}
-                          >
-                            <option value="pendiente">Pendiente</option>
-                            <option value="Aceptado">Aceptado</option>
-                            <option value="Rechazado">Rechazado</option>
-                          </select>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() =>
+                                handleUpdateStatus(candidatura.id, "pendiente")
+                              }
+                              disabled={isUpdating}
+                              className="px-3 py-1 text-xs font-medium text-white bg-yellow-500 rounded hover:bg-yellow-600 disabled:opacity-50"
+                            >
+                              Pendiente
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleUpdateStatus(candidatura.id, "Aceptado")
+                              }
+                              disabled={isUpdating}
+                              className="px-3 py-1 text-xs font-medium text-white bg-green-500 rounded hover:bg-green-600 disabled:opacity-50"
+                            >
+                              Aceptar
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleUpdateStatus(candidatura.id, "Rechazado")
+                              }
+                              disabled={isUpdating}
+                              className="px-3 py-1 text-xs font-medium text-white bg-red-500 rounded hover:bg-red-600 disabled:opacity-50"
+                            >
+                              Rechazar
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}

@@ -97,12 +97,12 @@ export default function CreateVacanteForm({ empresaData, onVacanteCreated }) {
 
   return (
     <div className="mt-8">
-      <h2 className="text-xl font-bold mb-4">Crear Nueva Vacante</h2>
+      <h2 className="text-xl font-bold mb-4 text-white">Crear Nueva Vacante</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="titulo"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-gray-300"
           >
             Título de la vacante
           </label>
@@ -111,14 +111,14 @@ export default function CreateVacanteForm({ empresaData, onVacanteCreated }) {
             id="titulo"
             name="titulo"
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+            className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
           />
         </div>
 
         <div>
           <label
             htmlFor="descripcion"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-gray-300"
           >
             Descripción
           </label>
@@ -127,7 +127,7 @@ export default function CreateVacanteForm({ empresaData, onVacanteCreated }) {
             name="descripcion"
             required
             rows="4"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+            className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
           ></textarea>
           <button
             type="button"
@@ -169,7 +169,7 @@ export default function CreateVacanteForm({ empresaData, onVacanteCreated }) {
           </button>
           {categorias && !isAnalyzing && (
             <div className="mt-2">
-              <h4 className="text-sm font-medium text-gray-700">
+              <h4 className="text-sm font-medium text-gray-300">
                 Categorías sugeridas:
               </h4>
               <div className="flex flex-wrap gap-2 mt-1">
@@ -189,7 +189,7 @@ export default function CreateVacanteForm({ empresaData, onVacanteCreated }) {
         <div>
           <label
             htmlFor="sueldo"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-gray-300"
           >
             Sueldo
           </label>
@@ -198,14 +198,14 @@ export default function CreateVacanteForm({ empresaData, onVacanteCreated }) {
             id="sueldo"
             name="sueldo"
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+            className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
           />
         </div>
 
         <div>
           <label
             htmlFor="modalidad"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-gray-300"
           >
             Modalidad
           </label>
@@ -213,7 +213,7 @@ export default function CreateVacanteForm({ empresaData, onVacanteCreated }) {
             id="modalidad"
             name="modalidad"
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+            className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
           >
             <option value="Presencial">Presencial</option>
             <option value="En linea">En línea</option>
@@ -232,11 +232,11 @@ export default function CreateVacanteForm({ empresaData, onVacanteCreated }) {
       </form>
 
       {apiResponse && (
-        <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+        <div className="mt-8 p-4 bg-gray-800 border border-gray-700 rounded-lg">
+          <h3 className="text-lg font-medium text-white mb-2">
             Respuesta de la API:
           </h3>
-          <pre className="text-sm text-gray-600 whitespace-pre-wrap">
+          <pre className="text-sm text-gray-300 whitespace-pre-wrap">
             {JSON.stringify(apiResponse, null, 2)}
           </pre>
         </div>

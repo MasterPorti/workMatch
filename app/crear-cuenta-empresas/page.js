@@ -51,13 +51,11 @@ export default function CrearCuentaEmpresaPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fcfcfc] flex items-center justify-center">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="w-full max-w-md p-8 space-y-8 bg-gray-800 rounded-lg shadow-lg">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">
-            Registro de Empresa
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <h2 className="text-3xl font-bold text-white">Registro de Empresa</h2>
+          <p className="mt-2 text-sm text-gray-300">
             Crea tu cuenta para publicar ofertas de trabajo
           </p>
         </div>
@@ -67,7 +65,7 @@ export default function CrearCuentaEmpresaPage() {
             <div>
               <label
                 htmlFor="nombre"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-300"
               >
                 Nombre de la empresa
               </label>
@@ -76,7 +74,7 @@ export default function CrearCuentaEmpresaPage() {
                 name="nombre"
                 type="text"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+                className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
                 value={formData.nombre}
                 onChange={(e) =>
                   setFormData({ ...formData, nombre: e.target.value })
@@ -87,7 +85,7 @@ export default function CrearCuentaEmpresaPage() {
             <div>
               <label
                 htmlFor="correo"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-300"
               >
                 Correo electrónico
               </label>
@@ -96,7 +94,7 @@ export default function CrearCuentaEmpresaPage() {
                 name="correo"
                 type="email"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+                className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
                 value={formData.correo}
                 onChange={(e) =>
                   setFormData({ ...formData, correo: e.target.value })
@@ -107,7 +105,7 @@ export default function CrearCuentaEmpresaPage() {
             <div>
               <label
                 htmlFor="contra"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-300"
               >
                 Contraseña
               </label>
@@ -116,7 +114,7 @@ export default function CrearCuentaEmpresaPage() {
                 name="contra"
                 type="password"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+                className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
                 value={formData.contra}
                 onChange={(e) =>
                   setFormData({ ...formData, contra: e.target.value })
@@ -127,7 +125,7 @@ export default function CrearCuentaEmpresaPage() {
             <div>
               <label
                 htmlFor="ubicacion"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-300"
               >
                 Ubicación
               </label>
@@ -136,7 +134,7 @@ export default function CrearCuentaEmpresaPage() {
                 name="ubicacion"
                 type="text"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+                className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
                 value={formData.ubicacion}
                 onChange={(e) =>
                   setFormData({ ...formData, ubicacion: e.target.value })
@@ -147,7 +145,7 @@ export default function CrearCuentaEmpresaPage() {
             <div>
               <label
                 htmlFor="telefono"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-300"
               >
                 Teléfono
               </label>
@@ -156,7 +154,7 @@ export default function CrearCuentaEmpresaPage() {
                 name="telefono"
                 type="tel"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
+                className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
                 value={formData.telefono}
                 onChange={(e) =>
                   setFormData({ ...formData, telefono: e.target.value })
@@ -166,7 +164,7 @@ export default function CrearCuentaEmpresaPage() {
           </div>
 
           {error && (
-            <div className="text-red-500 text-sm text-center">{error}</div>
+            <div className="text-red-400 text-sm text-center">{error}</div>
           )}
 
           <div>
@@ -180,7 +178,7 @@ export default function CrearCuentaEmpresaPage() {
         </form>
 
         <div className="text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-300">
             ¿Ya tienes una cuenta?{" "}
             <Link
               href="/ingresar-empresas"
