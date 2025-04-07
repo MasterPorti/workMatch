@@ -1,15 +1,6 @@
-"use client";
+import { HiHome, HiUser, HiBriefcase } from "react-icons/hi";
 
-import Link from "next/link";
-import {
-  HiHome,
-  HiBriefcase,
-  HiUserGroup,
-  HiClipboardList,
-  HiDocumentText,
-} from "react-icons/hi";
-
-export default function Sidebar() {
+export default function SidebarMenu() {
   return (
     <div className="w-16 h-full flex flex-col items-center py-4 border-r border-gray-400/50">
       <svg
@@ -26,30 +17,15 @@ export default function Sidebar() {
         />
       </svg>
       <div className="flex flex-col items-center gap-6">
-        <Link
-          href="/home"
-          className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-red-100/50 cursor-pointer transition-all duration-300"
-        >
+        <div className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-red-100/50 cursor-pointer transition-all duration-300">
           <HiHome className="text-2xl text-[#EE4266] cursor-pointer hover:text-[#d13a5c]" />
-        </Link>
-        <Link
-          href="/oportunidades"
-          className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-red-100/50 cursor-pointer transition-all duration-300"
-        >
+        </div>
+        <div className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-red-100/50 cursor-pointer transition-all duration-300">
+          <HiUser className="text-2xl text-[#EE4266] cursor-pointer hover:text-[#d13a5c]" />
+        </div>
+        <div className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-red-100/50 cursor-pointer transition-all duration-300">
           <HiBriefcase className="text-2xl text-[#EE4266] cursor-pointer hover:text-[#d13a5c]" />
-        </Link>
-        <Link
-          href="/para-ti"
-          className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-red-100/50 cursor-pointer transition-all duration-300"
-        >
-          <HiUserGroup className="text-2xl text-[#EE4266] cursor-pointer hover:text-[#d13a5c]" />
-        </Link>
-        <Link
-          href="/postulaciones"
-          className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-red-100/50 cursor-pointer transition-all duration-300"
-        >
-          <HiClipboardList className="text-2xl text-[#EE4266] cursor-pointer hover:text-[#d13a5c]" />
-        </Link>
+        </div>
       </div>
     </div>
   );
