@@ -489,36 +489,36 @@ export default function InyectarDatosPage() {
           ) : null}
 
           {/* Historial de respuestas */}
-          <div className="mt-6">
+          <div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               Historial de Vacantes Procesadas
             </h3>
-            {vacantesResults.length > 0 ? (
+            {vacantesResults && vacantesResults.length > 0 ? (
               <div className="space-y-4 max-h-96 overflow-auto pr-2">
                 {vacantesResults.map((result, index) => (
                   <div
                     key={index}
                     className={`p-3 rounded-lg border ${
-                      result.success
+                      result?.success
                         ? "bg-green-50 border-green-200"
                         : "bg-red-50 border-red-200"
                     }`}
                   >
                     <div className="flex justify-between items-center">
                       <h4 className="text-sm font-medium">
-                        {index + 1}. {result.titulo}
+                        {index + 1}. {result?.titulo || "Sin título"}
                       </h4>
                       <span
                         className={`text-xs px-2 py-1 rounded-full ${
-                          result.success
+                          result?.success
                             ? "bg-green-100 text-green-800"
                             : "bg-red-100 text-red-800"
                         }`}
                       >
-                        {result.success ? "Éxito" : "Error"}
+                        {result?.success ? "Éxito" : "Error"}
                       </span>
                     </div>
-                    {result.error && (
+                    {result?.error && (
                       <p className="text-xs text-red-700 mt-1">
                         {result.error}
                       </p>

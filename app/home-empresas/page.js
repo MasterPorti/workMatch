@@ -22,7 +22,11 @@ export default function HomeEmpresasPage() {
         `https://bk.workmatch.ovh/api/vacantes?page=1&per_page=100`
       );
       const data = await response.json();
-      setVacantes(data.vacantes);
+      // Filtrar las vacantes por empresa_id
+      const vacantesFiltradas = data.vacantes.filter(
+        (vacante) => vacante.empresa_id === empresaData.id
+      );
+      setVacantes(vacantesFiltradas);
     } catch (error) {
       console.error("Error al cargar las vacantes:", error);
     }
@@ -293,66 +297,56 @@ export default function HomeEmpresasPage() {
 
           <div className="mt-8">
             <h2 className="text-xl font-bold mb-4">Tus Vacantes Publicadas</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {vacantes
-                .filter((vacante) => {
-                  const categoriasMatch =
-                    vacante.descripcion.match(/Categorías: (.*)/);
-                  return categoriasMatch && categoriasMatch[1].trim() !== "";
-                })
-                .map((vacante, index) => {
-                  const categoriasMatch =
-                    vacante.descripcion.match(/Categorías: (.*)/);
-                  const categorias = categoriasMatch
-                    ? categoriasMatch[1].split(", ").slice(0, 3)
-                    : [];
-                  const descripcionLimpia = categoriasMatch
-                    ? vacante.descripcion
-                        .replace(/\n\nCategorías: .*/, "")
-                        .trim()
-                    : vacante.descripcion;
+            <div className="grid bg-red-100 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {vacantes.map((vacante, index) => {
+                const categoriasMatch =
+                  vacante.descripcion.match(/Categorías: (.*)/);
+                const categorias = categoriasMatch
+                  ? categoriasMatch[1].split(", ").slice(0, 3)
+                  : [];
 
-                  return (
-                    <div
-                      key={index}
-                      className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
-                    >
-                      <h3 className="text-lg font-semibold text-[#EE4266] mb-2">
-                        {vacante.titulo}
-                      </h3>
-                      <p className="text-gray-600 text-sm mb-2 whitespace-pre-line overflow-y-auto h-32">
-                        {descripcionLimpia}
-                      </p>
-                      {categorias.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-2">
-                          {categorias.map((categoria, catIndex) => (
-                            <span
-                              key={catIndex}
-                              className="px-2 py-1 text-xs font-medium bg-[#EE4266]/10 text-[#EE4266] rounded-full"
-                            >
-                              {categoria}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <div className="flex justify-between text-sm text-gray-500">
-                        <span>Sueldo: ${vacante.sueldo}</span>
-                        <span>Modalidad: {vacante.modalidad}</span>
+                const descripcionLimpia = categoriasMatch
+                  ? vacante.descripcion.replace(/\n\nCategorías: .*/, "").trim()
+                  : vacante.descripcion;
+
+                return (
+                  <div
+                    key={index}
+                    className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+                  >
+                    <h3 className="text-lg font-semibold text-[#EE4266] mb-2">
+                      {vacante.titulo}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-2 whitespace-pre-line overflow-y-auto h-32">
+                      {descripcionLimpia}
+                    </p>
+                    {categorias.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {categorias.map((categoria, catIndex) => (
+                          <span
+                            key={catIndex}
+                            className="px-2 py-1 text-xs font-medium bg-[#EE4266]/10 text-[#EE4266] rounded-full"
+                          >
+                            {categoria}
+                          </span>
+                        ))}
                       </div>
-                      <div className="mt-2 text-sm text-gray-500">
-                        <span>Empresa: {vacante.empresa_nombre}</span>
-                      </div>
-                      <div className="mt-4 flex justify-end">
-                        <button
-                          onClick={() => handleDeleteVacante(vacante.id)}
-                          className="px-3 py-1 text-sm text-white bg-[#EE4266] rounded-lg hover:bg-[#d13a5c] transition-colors duration-300"
-                        >
-                          Eliminar
-                        </button>
-                      </div>
+                    )}
+                    <div className="flex justify-between text-sm text-gray-500">
+                      <span>Sueldo: ${vacante.sueldo}</span>
+                      <span>Modalidad: {vacante.modalidad}</span>
                     </div>
-                  );
-                })}
+                    <div className="mt-4 flex justify-end">
+                      <button
+                        onClick={() => handleDeleteVacante(vacante.id)}
+                        className="px-3 py-1 text-sm text-white bg-[#EE4266] rounded-lg hover:bg-[#d13a5c] transition-colors duration-300"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
