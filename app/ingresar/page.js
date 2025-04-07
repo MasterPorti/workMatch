@@ -135,10 +135,10 @@ export default function IngresarPage() {
                 </label>
               </div>
               <Link
-                href="/olvide-password"
+                href="/crear-cuenta-empresa"
                 className="text-sm text-[#EE4266] hover:underline"
               >
-                ¿Olvidaste tu contraseña?
+                ¿Eres una empresa?
               </Link>
             </div>
             <button

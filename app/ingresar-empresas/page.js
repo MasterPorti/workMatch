@@ -1,17 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
-export default function CrearCuentaEmpresaPage() {
+export default function IngresarEmpresasPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    nombre: "",
     correo: "",
     contra: "",
-    ubicacion: "",
-    telefono: "",
   });
   const [error, setError] = useState("");
 
@@ -20,18 +18,12 @@ export default function CrearCuentaEmpresaPage() {
     setError("");
 
     try {
-      const url = `https://bk.workmatch.ovh/api/empresas?nombre=${encodeURIComponent(
-        formData.nombre
-      )}&correo=${encodeURIComponent(
+      const url = `https://bk.workmatch.ovh/api/empresas?correo=${encodeURIComponent(
         formData.correo
-      )}&contra=${encodeURIComponent(
-        formData.contra
-      )}&ubicacion=${encodeURIComponent(
-        formData.ubicacion
-      )}&telefono=${encodeURIComponent(formData.telefono)}`;
+      )}&contra=${encodeURIComponent(formData.contra)}`;
 
       const response = await fetch(url, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
@@ -40,11 +32,21 @@ export default function CrearCuentaEmpresaPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error al registrar la empresa");
+        throw new Error(data.message || "Error al iniciar sesión");
       }
 
-      // Redirigir a la página de ingreso de empresas
-      router.push("/ingresar-empresas");
+      // Guardar la información del usuario en las cookies
+      Cookies.set(
+        "empresaData",
+        JSON.stringify({
+          ...data,
+          contra: formData.contra, // Guardar la contraseña sin encriptación
+        })
+      );
+      Cookies.set("empresaToken", data.id.toString());
+
+      // Redirigir a la página de inicio de empresas
+      router.push("/home-empresas");
     } catch (error) {
       setError(error.message);
     }
@@ -55,35 +57,15 @@ export default function CrearCuentaEmpresaPage() {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900">
-            Registro de Empresa
+            Ingreso de Empresas
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Crea tu cuenta para publicar ofertas de trabajo
+            Accede a tu cuenta para gestionar tus ofertas de trabajo
           </p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="nombre"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nombre de la empresa
-              </label>
-              <input
-                id="nombre"
-                name="nombre"
-                type="text"
-                required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
-                value={formData.nombre}
-                onChange={(e) =>
-                  setFormData({ ...formData, nombre: e.target.value })
-                }
-              />
-            </div>
-
             <div>
               <label
                 htmlFor="correo"
@@ -123,46 +105,6 @@ export default function CrearCuentaEmpresaPage() {
                 }
               />
             </div>
-
-            <div>
-              <label
-                htmlFor="ubicacion"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Ubicación
-              </label>
-              <input
-                id="ubicacion"
-                name="ubicacion"
-                type="text"
-                required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
-                value={formData.ubicacion}
-                onChange={(e) =>
-                  setFormData({ ...formData, ubicacion: e.target.value })
-                }
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="telefono"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Teléfono
-              </label>
-              <input
-                id="telefono"
-                name="telefono"
-                type="tel"
-                required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#EE4266] focus:border-[#EE4266]"
-                value={formData.telefono}
-                onChange={(e) =>
-                  setFormData({ ...formData, telefono: e.target.value })
-                }
-              />
-            </div>
           </div>
 
           {error && (
@@ -174,19 +116,19 @@ export default function CrearCuentaEmpresaPage() {
               type="submit"
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#EE4266] hover:bg-[#d13a5c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EE4266]"
             >
-              Registrarse
+              Ingresar
             </button>
           </div>
         </form>
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            ¿Ya tienes una cuenta?{" "}
+            ¿No tienes una cuenta?{" "}
             <Link
-              href="/ingresar-empresas"
+              href="/crear-cuenta-empresa"
               className="font-medium text-[#EE4266] hover:text-[#d13a5c]"
             >
-              Ingresa aquí
+              Regístrate aquí
             </Link>
           </p>
         </div>
